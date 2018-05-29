@@ -36,7 +36,6 @@ class fileController extends Controller
 	
 	for ($xx = 0; $xx <= 6; $xx++) {
 		$url="https://www.e-obce.sk/zoznam_vsetkych_obci.html?strana=". ($xx*500);
-		// $url="https://www.e-obce.sk/zoznam_vsetkych_obci.html?strana=500";
 		$data= file_get_contents($url);	
 		$dom = HtmlDomParser::str_get_html( $data );
 		$elems = $dom->find('table[border=0]');
@@ -66,20 +65,13 @@ class fileController extends Controller
 				$village->web= $x->web;
 				$village->obrazok='';
 			 
-				//save village
 				$saved = $village->save();
 				
 				if($saved){
 					$insertedId = $village->id;	
 					$content = file_get_contents($x->obrazok);
-					// $nazov = public_path('').'/obrazky/'.$insertedId.'.gif';
-					$nazov = $insertedId.'.gif';
-					// $file= $filesystem->put($nazov,$content);
-					// $file= $filesystem->put($nazov,$content);
-					// $file = $filesystem->put($nazov,$content);
-					
+					$nazov = $insertedId.'.gif';					
 					\Storage::disk('upload')->put($nazov,$content);
-					
 					Village::where('id', $insertedId)->update(['obrazok' => $nazov]);		
 					$sum++;
 				}
@@ -87,7 +79,7 @@ class fileController extends Controller
 		  }
 		}
 	}	// End FOR xx
-		return '<h3>Úspešne bolo pridaných '. $sum . ' nových obci do zoznamu.</h3>';
+		return '<h3>Úspešne bolo pridaných '. $sum . ' nových obcí do databázy.</h3>';
   }
 	
 		
@@ -96,14 +88,4 @@ class fileController extends Controller
 	return $villages;
 
 	}	
-	
-	
-	public function getDataview(){
-		
-	$villages = Village::all() ;	
-	
-	return view('subor')->with('villages', $villages);
-	}	
-	
-	
 }

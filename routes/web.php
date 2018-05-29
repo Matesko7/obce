@@ -11,27 +11,10 @@
 |
 */
 
-Route::get('/about', function () {
-    return view('about');
-});
-
-Route::get('/contact', function () {
-    return view('contact');
-});
-
-
-Route:: get('/obrazok', 'PicturesController@index');
-
+Route:: get('/', 'PagesController@gethome');
 
 Route:: get('/database', 'fileController@parser');
-
-Route:: get('/', 'fileController@getDataview');
 
 Route:: get('/obecdetail/{id?}', 'VillagesController@index');
 
 Route:: get('/getdata', 'fileController@getData');
-
-Route:: get('/messages', 'MessagesController@getMessages');
-
-
-Route:: post('/contact/submit', 'MessagesController@submit');
